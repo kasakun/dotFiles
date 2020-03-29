@@ -4,26 +4,45 @@
     Plug 'mhinz/vim-startify'
     Plug 'mhinz/vim-signify'
 
-    " defx
+    " dark power
     if has('nvim')
         Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     else
-         Plug 'Shougo/defx.nvim'
-         Plug 'roxma/nvim-yarp'
-         Plug 'roxma/vim-hug-neovim-rpc'
-     endif
+        Plug 'Shougo/defx.nvim'
+        Plug 'Shougo/deoplete.nvim'
+        Plug 'roxma/nvim-yarp'
+        Plug 'roxma/vim-hug-neovim-rpc'
+    endif
 
+    Plug 'Shougo/deoplete-clangx'
+    Plug 'deoplete-plugins/deoplete-jedi'
+    Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
-    Plug 'flazz/vim-colorschemes'
     Plug 'bling/vim-bufferline'
+    Plug 'flazz/vim-colorschemes'
     Plug 'kana/vim-textobj-user'
     Plug 'kana/vim-textobj-indent'
-    Plug 'reedes/vim-litecorrect'
     Plug 'reedes/vim-textobj-sentence'
     Plug 'reedes/vim-textobj-quote'
     Plug 'reedes/vim-wordy'
+    Plug 'reedes/vim-litecorrect'
     Plug 'scrooloose/nerdcommenter'
+    Plug 'Yggdroot/indentLine'
+    Plug 'Yggdroot/LeaderF'
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-fugitive'
+    Plug 'Lokaltog/vim-easymotion'
+    Plug 'luochen1990/rainbow'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'neomake/neomake'
+    Plug 'godlygeek/tabular'
+    Plug 'plasticboy/vim-markdown'
+    Plug 'iamcco/markdown-preview.vim'
+
+    Plug 'octol/vim-cpp-enhanced-highlight'
+    Plug 'sheerun/vim-polyglot'
     call plug#end()
 
 " }
@@ -34,7 +53,7 @@
         call defx#custom#option('_', {
             \ 'winwidth': 30,
             \ 'split': 'vertical',
-            \ 'direction': 'botright',
+            \ 'direction': 'topleft',
             \ 'show_ignored_files': 0,
             \ 'buffer_name': 'defx',
             \ 'toggle': 1,
@@ -72,7 +91,7 @@
                 nnoremap <silent><buffer><expr> <CR>
                     \ defx#is_directory() ?
                     \ defx#do_action('open_tree') :
-                    \ defx#do_action('multi', [['drop', 'split']])
+                    \ defx#do_action('multi', [['drop']])
                 nnoremap <silent><buffer><expr> c
                     \ defx#do_action('copy')
                 nnoremap <silent><buffer><expr> m
@@ -134,6 +153,66 @@
         " }
     "}
 
+    " deoplete {
+        " Enable deoplete
+        let g:deoplete#enable_at_startup=1
+
+        " Pass a dictionary to set multiple options
+        call deoplete#custom#option({
+            \ 'auto_complete_delay': 200,
+            \ 'smart_case': v:true,
+            \ })
+
+        inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+        inoremap <expr><CR> pumvisible() ? "\<C-y>" : "\<CR>"
+
+        " }
+
+    " LeaderF {
+        let g:loaded_leaderf=1
+        let g:Lf_PythonVersion=3
+        let g:Lf_DefaultMode= 'Fuzzy'
+        let g:Lf_WorkingDirectoryMode = 'Ac'
+        let g:Lf_RootMarkers = ['.project', '.git']
+
+        noremap <Leader>t :LeaderfFunction!<cr>
+
+        let g:Lf_ShowRelativePath = 0
+        let g:Lf_HideHelp = 1
+        let g:Lf_PreviewResult = {'Function':0, 'Colorscheme':1}
+
+        let g:Lf_NormalMap = {
+            \ "File":   [["<ESC>", ':exec g:Lf_py "fileExplManager.quit()"<CR>']],
+            \ "Buffer": [["<ESC>", ':exec g:Lf_py "bufExplManager.quit()"<CR>']],
+            \ "Mru":    [["<ESC>", ':exec g:Lf_py "mruExplManager.quit()"<CR>']],
+            \ "Tag":    [["<ESC>", ':exec g:Lf_py "tagExplManager.quit()"<CR>']],
+            \ "Function":    [["<ESC>", ':exec g:Lf_py "functionExplManager.quit()"<CR>']],
+            \ "Colorscheme":    [["<ESC>", ':exec g:Lf_py "colorschemeExplManager.quit()"<CR>']],
+            \ }
+    " }
+
+    " neomake {
+        call neomake#configure#automake({
+          \ 'TextChanged': {},
+          \ 'InsertLeave': {},
+          \ 'BufWritePost': {'delay': 0},
+          \ 'BufWinEnter': {},
+          \ }, 500)
+
+    " }
+
+    " vim-markdown {
+
+        let g:vim_markdown_conceal = 0
+        let g:vim_markdown_conceal_code_blocks = 0
+
+    " }
+
+    " rainbow {
+        let g:rainbow_active=0
+        nnoremap <silent><Leader><Leader>r :RainbowToggle <CR>
+    " }
+
     " vim-airline {
         " Set configuration options for the statusline plugin vim-airline.
         " Use the powerline theme and optionally enable powerline symbols.
@@ -147,7 +226,7 @@
         " Default in terminal vim is 'dark'
         if isdirectory(expand("~/.vim/plugged/vim-airline-themes/"))
             if !exists('g:airline_theme')
-                let g:airline_theme = 'fruit_punch'
+                let g:airline_theme = 'base16_spacemacs'
             endif
             if !exists('g:airline_powerline_fonts')
                 " Use the default set of separators with a few customizations
@@ -155,6 +234,10 @@
                 let g:airline_right_sep='‹' " Slightly fancier than '<'
             endif
         endif
+    " }
+
+    " FixWhitespace {
+        nnoremap <Leader><Space> :FixWhitespace <CR>
     " }
 
 " }
@@ -258,7 +341,8 @@
 
 " UI {
 
-    let g:solarized_visibility="normal"
+    set t_Co=256                    " Set 256 colors
+    set termguicolors               " Set term gui colors
     colorscheme gruvbox             " Set a colorscheme
     set tabpagemax=15               " Only show 15 tabs
     set showmode                    " Display the current mode
@@ -330,17 +414,52 @@
     " To disable the stripping of whitespace, add the following to your
     " .vimrc.before.local file:
     "   let g:spf13_keep_trailing_whitespace = 1
-    autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
+    "autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
     "autocmd FileType go autocmd BufWritePre <buffer> Fmt
-    autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
-    autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
+    "autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
+    "autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
     " preceding line best in a plugin but here for now.
 
-    autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+    "autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 
     " Workaround vim-commentary for Haskell
     autocmd FileType haskell setlocal commentstring=--\ %s
     " Workaround broken colour highlighting in Haskell
     autocmd FileType haskell,rust setlocal nospell
 
+" }
+
+" Keys {
+
+    " Fix typo
+    if has("user_commands")
+        command! -bang -nargs=* -complete=file E e<bang> <args>
+        command! -bang -nargs=* -complete=file W w<bang> <args>
+        command! -bang -nargs=* -complete=file Wq wq<bang> <args>
+        command! -bang -nargs=* -complete=file WQ wq<bang> <args>
+        command! -bang Wa wa<bang>
+        command! -bang WA wa<bang>
+        command! -bang Q q<bang>
+        command! -bang QA qa<bang>
+        command! -bang Qa qa<bang>
+    endif
+    cmap Tabe tabe
+
+    if !exists('g:spf13_no_easyWindows')
+        map <C-J> <C-W>j<C-W>_
+        map <C-K> <C-W>k<C-W>_
+        map <C-L> <C-W>l<C-W>_
+        map <C-H> <C-W>h<C-W>_
+    endif
+
+    " Wrapped lines goes down/up to next row, rather than next line in file.
+    noremap j gj
+    noremap k gk
+
+    " Buffer shift
+    nnoremap <silent>bn :bn<CR>
+    nnoremap <silent>bp :bp<CR>
+
+    " Yank from the cursor to the end of the line, to be consistent with C and D.
+    nnoremap Y y$
 " }
