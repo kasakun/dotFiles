@@ -202,10 +202,16 @@
     " }
 
     " vim-markdown {
-
         let g:vim_markdown_conceal = 0
         let g:vim_markdown_conceal_code_blocks = 0
+    " }
 
+    " undo tree {
+        if isdirectory(expand("~/.vim/plugged/undotree/"))
+            nnoremap <Leader>u :UndotreeToggle<CR>
+            " If undotree is opened, it is likely one wants to interact with it.
+            let g:undotree_SetFocusWhenToggle=1
+        endif
     " }
 
     " rainbow {
@@ -334,6 +340,15 @@
             let g:skipview_files = [
                 \ '\[example pattern\]'
                 \ ]
+        endif
+
+        set backup                      " Backups are nice ...
+        set backupdir=~/.backupdir/
+        set undofile                    " So is persistent undo ...
+        set undodir=~/.undodir/
+        if has('persistent_undo')
+            set undolevels=1000         " Maximum number of changes that can be undone
+            set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
         endif
     " }
 
