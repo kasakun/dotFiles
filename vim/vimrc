@@ -37,6 +37,7 @@
     Plug 'mbbill/undotree'
     Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'sheerun/vim-polyglot'
+    Plug 'voldikss/vim-floaterm'
     call plug#end()
 
 " }
@@ -289,7 +290,11 @@
         " Resume latest coc list.
         nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
-        " }
+    " }
+
+    " floaterm {
+        let g:floaterm_keymap_toggle = '<F10>'
+    " }
 
     " LeaderF {
         let g:loaded_leaderf=1
