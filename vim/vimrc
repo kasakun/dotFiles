@@ -76,7 +76,7 @@
             nnoremap <silent> <Leader>e
                 \ :<C-u>Defx -resume -toggle -buffer-name=tab`tabpagenr()` <CR>
 
-            nnoremap <silent> <Leader>a
+            nnoremap <silent> <Leader><Leader>a
                 \ :<C-u>Defx -resume -buffer-name=tab`tabpagenr()`
                 \ -search=`expand('%:p')`<CR>
 
