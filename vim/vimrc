@@ -447,6 +447,10 @@
         endif
     " }
 
+    " Save/load fold info
+    au BufWinLeave ?* silent mkview
+    au BufWinEnter ?* silent loadview
+
 " }
 
 " UI {
