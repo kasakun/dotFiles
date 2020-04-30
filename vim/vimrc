@@ -38,6 +38,8 @@
     Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'sheerun/vim-polyglot'
     Plug 'voldikss/vim-floaterm'
+    Plug 'Chiel92/vim-autoformat'
+    Plug 'vimwiki/vimwiki'
     call plug#end()
 
 " }
@@ -56,9 +58,9 @@
             \ })
 
         call defx#custom#column('icon', {
-            \ 'directory_icon': '▸',
-            \ 'opened_icon': '▾',
-            \ 'root_icon': ' ',
+            \ 'directory_icon': '',
+            \ 'opened_icon': '',
+            \ 'root_icon': 'ﮛ',
             \ })
 
         call defx#custom#column('filename', {
@@ -67,8 +69,8 @@
             \ })
 
         call defx#custom#column('mark', {
-            \ 'readonly_icon': '✗',
-            \ 'selected_icon': '✓',
+            \ 'readonly_icon': '',
+            \ 'selected_icon': '',
             \ })
 
         " Keys {
@@ -302,8 +304,21 @@
         let g:Lf_DefaultMode= 'Fuzzy'
         let g:Lf_WorkingDirectoryMode = 'Ac'
         let g:Lf_RootMarkers = ['.project', '.git']
+        let g:Lf_GtagsAutoGenerate=1
+        let g:Lf_PreviewCode=1
+
+        " Leaderf gtags
+        let g:Lf_Gtagslabel = 'native-pygments'
+        noremap <leader>gr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+        noremap <leader>gd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+        noremap <leader>go :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+        noremap <leader>gn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
+        noremap <leader>gp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
         noremap <Leader>t :LeaderfFunction!<cr>
+        noremap <Leader>m :Leaderf mru<cr>
+        noremap <Leader>r :Leaderf rg<cr>
+        noremap <Leader>g :Leaderf gtags<cr>
 
         let g:Lf_ShowRelativePath = 0
         let g:Lf_HideHelp = 1
@@ -355,6 +370,18 @@
         let g:airline_powerline_fonts=1
         " If the previous symbols do not render for you then install a
         " powerline enabled font.
+        if !exists('g:airline_symbols')
+            let g:airline_symbols = {}
+        endif
+        let g:airline_left_sep = ''
+        let g:airline_left_alt_sep = ''
+        let g:airline_right_sep = ''
+        let g:airline_right_alt_sep = ''
+        let g:airline_symbols.branch = ''
+        let g:airline_symbols.linenr = '☰'
+        let g:airline_symbols.maxlinenr = ''
+        let g:airline_symbols.dirty='⚡'
+        let g:airline_symbols.readonly = ''
 
         " See `:echo g:airline_theme_map` for some more choices
         " Default in terminal vim is 'dark'
@@ -377,7 +404,7 @@
 " }
 
 " General {
-
+    set encoding=utf-8
     set background=dark         " Assume a dark background
 
     " Allow to trigger background
@@ -419,7 +446,6 @@
     set iskeyword-=.                    " '.' is an end of word designator
     set iskeyword-=#                    " '#' is an end of word designator
     set iskeyword-=-                    " '-' is an end of word designator
-    set iskeyword-=_                    " '_' is an end of word designator
 
     " Instead of reverting the cursor to the last position in the buffer, we
     " set it to the first line when editing a git commit message
@@ -439,6 +465,7 @@
     augroup END
 
     " Setting up the directories {
+        set noswapfile
         set undofile                    " So is persistent undo ...
         set undodir=~/.undodir/
         if has('persistent_undo')
