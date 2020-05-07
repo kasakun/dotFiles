@@ -296,6 +296,7 @@
 
     " floaterm {
         let g:floaterm_keymap_toggle = '<F10>'
+        let g:floaterm_autoclose=2
     " }
 
     " LeaderF {
@@ -308,6 +309,7 @@
         let g:Lf_PreviewCode=1
 
         " Leaderf gtags
+        noremap <Leader>g :Leaderf gtags<cr>
         let g:Lf_Gtagslabel = 'native-pygments'
         noremap <leader>gr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
         noremap <leader>gd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
@@ -317,8 +319,14 @@
 
         noremap <Leader>t :LeaderfFunction!<cr>
         noremap <Leader>m :Leaderf mru<cr>
-        noremap <Leader>r :Leaderf rg<cr>
-        noremap <Leader>g :Leaderf gtags<cr>
+
+        " Leaderf rg
+        noremap <Leader>r ::<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR><cr>
+        let g:Lf_RgConfig = [
+            \ "--max-columns=150",
+            \ "--glob=!git/*",
+            \ "--hidden"
+            \ ]
 
         let g:Lf_ShowRelativePath = 0
         let g:Lf_HideHelp = 1
