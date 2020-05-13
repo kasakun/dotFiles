@@ -307,6 +307,7 @@
         let g:Lf_RootMarkers = ['.project', '.git']
         let g:Lf_GtagsAutoGenerate=1
         let g:Lf_PreviewCode=1
+        let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
 
         " Leaderf gtags
         noremap <Leader>g :Leaderf gtags<cr>
