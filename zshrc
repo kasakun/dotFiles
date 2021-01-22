@@ -100,5 +100,5 @@ source $ZSH/oh-my-zsh.sh
 #
 
 # alias
-alias jj='mkdir -p /home/USR/journal/$(date +%Y)/$(date +%m);\
-    vim /home/USR/journal/$(date +%Y)/$(date +%m)/$(date +%Y-%m-%d).md'
+alias jj='mkdir -p /home/USER/journal/$(date +%Y)/$(date +%m);\
+    vim /home/USER/journal/$(date +%Y)/$(date +%m)/$(date +%Y-%m-%d).md'

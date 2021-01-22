@@ -59,6 +59,7 @@ install_zsh()
                 su -c "sh ohmyzsh.sh --unattended" $user
                 su -c "rm ohmyzsh.sh" $user
                 su -c "cp ./zsh/zshrc ~/.zshrc" $user
+                su -c "sed 's/USER/$user/' ~/.zshrc > ~/.zshrc" $user
                 echo -e "Installation complete"
                 echo -e "Use chsh -s zsh or chsh -s /bin/zsh to change the default shell"
                 echo
